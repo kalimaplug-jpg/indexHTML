@@ -529,11 +529,24 @@
 
     const notification = document.getElementById("joinNotification");
 
-    // Rastrear clique no botão WhatsApp
-    document.querySelector('.btn-join').addEventListener('click', function () {
-      fbq('track', 'Lead');
-      console.log('Lead rastreado - Clique no botão WhatsApp');
-    });
+    // Verificar se fbq está disponível
+    console.log('fbq disponível:', typeof fbq);
+    console.log('Pixel ID: 971777285463742');
+
+    // Rastrear clique no botão WhatsApp com delay para garantir que o elemento existe
+    setTimeout(function () {
+      const btnJoin = document.querySelector('.btn-join');
+      if (btnJoin) {
+        btnJoin.addEventListener('click', function (e) {
+          console.log('Clique detectado no botão');
+          fbq('track', 'Lead', { value: '0', currency: 'BRL' });
+          console.log('✅ Lead rastreado - Clique no botão WhatsApp');
+        });
+        console.log('✅ Event listener adicionado ao botão');
+      } else {
+        console.error('❌ Botão .btn-join não encontrado');
+      }
+    }, 100);
 
     // Rastrear visualização de notificações
     function mostrarNotificacao() {
@@ -548,7 +561,8 @@
       `;
 
       notification.classList.add("show");
-      fbq('track', 'ViewContent');
+      fbq('track', 'ViewContent', { content_name: 'Social Proof Notification' });
+      console.log('✅ ViewContent rastreado - Notificação exibida');
 
       setTimeout(() => {
         notification.classList.remove("show");
