@@ -11,7 +11,7 @@
     !function (f, b, e, v, n, t, s) {
       if (f.fbq) return; n = f.fbq = function () {
         n.callMethod ?
-        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
       };
       if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
       n.queue = []; t = b.createElement(e); t.async = !0;
@@ -529,6 +529,13 @@
 
     const notification = document.getElementById("joinNotification");
 
+    // Rastrear clique no botão WhatsApp
+    document.querySelector('.btn-join').addEventListener('click', function () {
+      fbq('track', 'Lead');
+      console.log('Lead rastreado - Clique no botão WhatsApp');
+    });
+
+    // Rastrear visualização de notificações
     function mostrarNotificacao() {
       const nomeAleatorio = nomes[Math.floor(Math.random() * nomes.length)];
       const mensagemAleatoria = mensagens[Math.floor(Math.random() * mensagens.length)];
@@ -541,6 +548,7 @@
       `;
 
       notification.classList.add("show");
+      fbq('track', 'ViewContent');
 
       setTimeout(() => {
         notification.classList.remove("show");
